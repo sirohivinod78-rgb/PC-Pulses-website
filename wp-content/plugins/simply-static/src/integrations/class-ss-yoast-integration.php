@@ -1,0 +1,524 @@
+<?php
+
+namespace Simply_Static;
+
+class Yoast_Integration extends Integration {
+
+	/**
+	 * Given plugin handler ID.
+	 *
+	 * @var string Handler ID.
+	 */
+	protected $id = 'yoast';
+
+	/**
+	 * Whether a post type sitemap is currently being generated.
+	 *
+	 * @var bool
+	 */
+	private $normalizing_sitemap_canonicals = false;
+
+	/**
+	 * Prevent recursive metadata reads while inspecting the stored canonical.
+	 *
+	 * @var bool
+	 */
+	private $reading_sitemap_metadata = false;
+
+	public function __construct() {
+		$this->name = __( 'Yoast', 'simply-static' );
+		$this->description = __( 'Automatically includes your XML sitemaps, handles URL replacements in schema.org markup, and creates redirects on your static site for you.', 'simply-static' );
+	}
+
+	/**
+	 * Run the integration.
+	 *
+	 * @return void
+	 */
+	public function run() {
+		add_filter( 'wpseo_sitemap_exclude_post_type', [ $this, 'exclude_form_sitemap' ], 10, 2 );
+		add_filter( 'wpseo_build_sitemap_post_type', [ $this, 'prepare_sitemap_canonical_metadata' ] );
+		add_filter( 'wpseo_sitemap_urlset', [ $this, 'finish_sitemap_canonical_metadata' ] );
+		add_filter( 'status_header', [ $this, 'reset_sitemap_canonical_metadata_on_error' ], 10, 2 );
+		add_action( 'ss_after_setup_task', [ $this, 'register_sitemap_page' ] );
+		add_action( 'ss_after_setup_task', [ $this, 'register_redirections' ] );
+		add_action( 'ss_dom_before_save', [ $this, 'replace_json_schema' ], 10, 2 );
+		add_filter( 'ss_additional_urls', [ $this, 'add_dynamic_robots_url' ] );
+		add_filter( 'ss_additional_files', [ $this, 'maybe_add_text_files' ] );
+
+  // Allow Simply Static setting to control sitemap inclusion on Single Export.
+  // Register early so that other plugins/themes (default priority 10+) can override via the same filter.
+  add_filter( 'ssp_single_export_add_xml_sitemap', [ $this, 'maybe_enable_sitemap_single_export' ], 1 );
+
+		// Maybe update sitemap on single export.
+		$add_sitemap_single_export = apply_filters( 'ssp_single_export_add_xml_sitemap', false );
+
+		if ( $add_sitemap_single_export ) {
+			add_filter( 'ssp_single_export_additional_urls', [ $this, 'add_sitemap_url' ] );
+		}
+
+		$this->include_file( 'handlers/class-ss-yoast-sitemap-handler.php' );
+	}
+
+	/**
+	 * Keep internal form connections out of Yoast's public sitemaps.
+	 *
+	 * @param bool   $excluded Whether the post type is already excluded.
+	 * @param string $post_type Post type name.
+	 * @return bool
+	 */
+	public function exclude_form_sitemap( $excluded, $post_type ) {
+		return 'ssp-form' === $post_type ? true : $excluded;
+	}
+
+	/**
+	 * Normalize destination self-canonicals only while Yoast builds sitemap links.
+	 *
+	 * Yoast excludes posts whose stored canonical differs from their WordPress
+	 * permalink, including a self-canonical on the configured static destination.
+	 *
+	 * @param string $type Sitemap type.
+	 * @return string
+	 */
+	public function prepare_sitemap_canonical_metadata( $type ) {
+		$this->finish_sitemap_canonical_metadata( '' );
+
+		$options = Options::instance();
+		if ( ! is_string( $type ) || ! post_type_exists( $type ) || 'absolute' !== $options->get( 'destination_url_type' ) ) {
+			return $type;
+		}
+
+		$destination = wp_parse_url( $options->get_destination_url() );
+		if (
+			! is_array( $destination )
+			|| empty( $destination['host'] )
+			|| ! isset( $destination['scheme'] )
+			|| ! in_array( strtolower( $destination['scheme'] ), array( 'http', 'https' ), true )
+			|| isset( $destination['user'] ) || isset( $destination['pass'] )
+			|| isset( $destination['query'] ) || isset( $destination['fragment'] )
+		) {
+			return $type;
+		}
+
+		$this->normalizing_sitemap_canonicals = true;
+		add_filter( 'get_post_metadata', [ $this, 'normalize_sitemap_canonical_metadata' ], 10, 4 );
+
+		return $type;
+	}
+
+	/**
+	 * Present an origin self-canonical to Yoast without changing stored metadata.
+	 *
+	 * Yoast reads the entire metadata array through get_post_custom(), so both
+	 * all-metadata reads and individual canonical reads must be supported.
+	 *
+	 * @param mixed  $value     Existing metadata short-circuit value.
+	 * @param int    $object_id Post ID.
+	 * @param string $meta_key  Requested metadata key, or empty for all metadata.
+	 * @param bool   $single    Whether a single metadata value was requested.
+	 * @return mixed
+	 */
+	public function normalize_sitemap_canonical_metadata( $value, $object_id, $meta_key, $single ) {
+		$canonical_key = '_yoast_wpseo_canonical';
+		if (
+			null !== $value
+			|| ! $this->normalizing_sitemap_canonicals
+			|| $this->reading_sitemap_metadata
+			|| ( '' !== $meta_key && $canonical_key !== $meta_key )
+		) {
+			return $value;
+		}
+
+		$this->reading_sitemap_metadata = true;
+		try {
+			$metadata = \get_post_meta( $object_id );
+			if ( ! is_array( $metadata ) || empty( $metadata[ $canonical_key ][0] ) || ! is_string( $metadata[ $canonical_key ][0] ) ) {
+				return $value;
+			}
+			$permalink = \get_permalink( $object_id );
+		} finally {
+			$this->reading_sitemap_metadata = false;
+		}
+
+		if (
+			! is_string( $permalink )
+			|| ! Util::is_local_origin_url( $permalink )
+		) {
+			return $value;
+		}
+
+		$destination_permalink = Util::replace_origin_urls_in_text( $permalink );
+		if ( $destination_permalink === $permalink || $metadata[ $canonical_key ][0] !== $destination_permalink ) {
+			return $value;
+		}
+
+		$metadata[ $canonical_key ][0] = $permalink;
+
+		return '' === $meta_key ? $metadata : $metadata[ $canonical_key ];
+	}
+
+	/**
+	 * Stop normalizing metadata after the sitemap provider has returned its links.
+	 *
+	 * @param string $urlset Sitemap opening XML, returned unchanged.
+	 * @return string
+	 */
+	public function finish_sitemap_canonical_metadata( $urlset ) {
+		$this->normalizing_sitemap_canonicals = false;
+		remove_filter( 'get_post_metadata', [ $this, 'normalize_sitemap_canonical_metadata' ], 10 );
+
+		return $urlset;
+	}
+
+	/**
+	 * Also clean up when Yoast rejects a sitemap before reaching the renderer.
+	 *
+	 * @param string $status_header HTTP status header, returned unchanged.
+	 * @param int    $code          HTTP status code.
+	 * @return string
+	 */
+	public function reset_sitemap_canonical_metadata_on_error( $status_header, $code ) {
+		if ( $code >= 400 ) {
+			$this->finish_sitemap_canonical_metadata( '' );
+		}
+
+		return $status_header;
+	}
+
+	/**
+	 * Maybe enable sitemap inclusion on Single Export based on plugin setting.
+	 * Developers can still override via filters with higher priority.
+	 *
+	 * @param bool $enabled Current enabled flag from filters.
+	 *
+	 * @return bool
+	 */
+	public function maybe_enable_sitemap_single_export( $enabled ) {
+		$settings = get_option( 'simply-static' );
+		if ( is_array( $settings ) && array_key_exists( 'ss_single_export_add_xml_sitemap', $settings ) ) {
+			return (bool) $settings['ss_single_export_add_xml_sitemap'];
+		}
+		return $enabled;
+	}
+
+	/**
+	 * Register all redirections.
+	 *
+	 * @return void
+	 */
+	public function register_redirections() {
+		// Only on full or update exports.
+		$use_single = get_option( 'simply-static-use-single' );
+		$use_build  = get_option( 'simply-static-use-build' );
+
+		if ( ! empty( $use_build ) || ! empty( $use_single ) ) {
+			return;
+		}
+
+		$redirections = get_option("wpseo-premium-redirects-base");
+
+		if ( ! $redirections ) {
+			return;
+		}
+
+		foreach ( $redirections as $redirection ) {
+
+			if ( strpos( $redirection['origin'], 'http' ) === 0 ) {
+				continue;
+			}
+
+			$url = home_url( $redirection['origin'] );
+			Util::debug_log( 'Adding Yoast redirection URL to queue: ' . $url );
+			/** @var \Simply_Static\Page $static_page */
+			$static_page = Page::query()->find_or_initialize_by( 'url', $url );
+			$static_page->set_status_message( __( 'Yoast Redirection URL', 'simply-static' ) );
+			$static_page->found_on_id = 0;
+			$static_page->save();
+		}
+
+	}
+
+	/**
+	 * Register sitemap maps for static export.
+	 *
+	 * @return void
+	 */
+	public function register_sitemap_page() {
+		if ( ! class_exists( 'WPSEO_Sitemaps_Router' ) ) {
+			return;
+		}
+
+		$urls = array(
+			\WPSEO_Sitemaps_Router::get_base_url( 'sitemap.xml' ),
+			\WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ),
+			\WPSEO_Sitemaps_Router::get_base_url( 'main-sitemap.xsl' ),
+		);
+
+		foreach ( $urls as $url ) {
+			Util::debug_log( 'Adding sitemap URL to queue: ' . $url );
+			/** @var \Simply_Static\Page $static_page */
+			$static_page = Page::query()->find_or_initialize_by( 'url', $url );
+			$static_page->set_status_message( __( 'Sitemap URL', 'simply-static' ) );
+			$static_page->found_on_id = 0;
+			$static_page->handler     = Yoast_Sitemap_Handler::class;
+			$static_page->save();
+		}
+
+		// Extract and add individual sitemap URLs from sitemap_index.xml
+		$this->extract_sitemap_urls_from_index();
+	}
+
+	/**
+	 * Add XML sitemap to single exports.
+	 *
+	 * @param $urls
+	 *
+	 * @return mixed
+	 */
+	public function add_sitemap_url( $urls ) {
+		if ( ! class_exists( 'WPSEO_Sitemaps_Router' ) ) {
+			return $urls;
+		}
+
+		$urls[] = \WPSEO_Sitemaps_Router::get_base_url( 'sitemap.xml' );
+		$urls[] = \WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' );
+		$urls[] = \WPSEO_Sitemaps_Router::get_base_url( 'main-sitemap.xsl' );
+
+		// Extract individual sitemap URLs from sitemap_index.xml
+		$sitemap_index_url = \WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' );
+		$response = $this->auth_remote_get( $sitemap_index_url, array( 'timeout' => 30 ) );
+
+		foreach ( $this->extract_sitemap_index_urls( $response ) as $sitemap_url ) {
+			$urls[] = $sitemap_url;
+			Util::debug_log( 'Adding individual sitemap URL to single export: ' . $sitemap_url );
+		}
+
+		return $urls;
+	}
+
+	/**
+	 * Replace JSON schema for schema.org
+	 *
+	 * @param mixed  $dom DOMDocument or HTML string.
+	 * @param string $url given URL.
+	 *
+	 * @return mixed DOMDocument or HTML string (same type as input)
+	 */
+	public function replace_json_schema( $dom, $url ) {
+		$options = Options::instance();
+
+		// Normalize input to DOMDocument while keeping track of original type.
+		$original_was_string = is_string( $dom );
+
+		if ( $original_was_string ) {
+			$doc = new \DOMDocument();
+			libxml_use_internal_errors( true );
+			$load_options = defined('LIBXML_HTML_NOIMPLIED') ? (LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD) : 0;
+			$doc->loadHTML( Util::strip_bom( $dom ), $load_options );
+			libxml_clear_errors();
+		} elseif ( $dom instanceof \DOMDocument ) {
+			$doc = $dom;
+		} else {
+			// Unknown type; nothing to do.
+			return $dom;
+		}
+
+		// Use DOMXPath to find script elements with class 'yoast-schema-graph'
+		$xpath = new \DOMXPath( $doc );
+		$scripts = $xpath->query( '//script[contains(@class, "yoast-schema-graph")]' );
+
+		if ( $scripts ) {
+			foreach ( $scripts as $script ) {
+				$decoded_text = html_entity_decode( $script->nodeValue, ENT_NOQUOTES );
+				$text = preg_replace( '/(https?:)?\/\/' . Util::origin_host_pattern() . '/i', $options->get_destination_url(), $decoded_text );
+				$script->nodeValue = $text;
+			}
+		}
+
+		// Return the same type that was provided.
+		if ( $original_was_string ) {
+			return $doc->saveHTML();
+		}
+
+		return $doc;
+	}
+
+	/**
+	 * Return if the dependency is active.
+	 *
+	 * @return boolean
+	 */
+	public function dependency_active() {
+		return defined( 'WPSEO_FILE' );
+	}
+
+	/**
+	 * Extract sitemap URLs from sitemap_index.xml and add them to the queue.
+	 *
+	 * @return void
+	 */
+	protected function extract_sitemap_urls_from_index() {
+		if ( ! class_exists( 'WPSEO_Sitemaps_Router' ) ) {
+			return;
+		}
+
+		$sitemap_index_url = \WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' );
+		$response = $this->auth_remote_get( $sitemap_index_url, array( 'timeout' => 30 ) );
+
+		if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
+			Util::debug_log( 'Failed to fetch sitemap index: ' . $sitemap_index_url );
+			return;
+		}
+
+		foreach ( $this->extract_sitemap_index_urls( $response ) as $sitemap_url ) {
+			// Add the sitemap URL to the queue.
+			Util::debug_log( 'Adding sitemap URL to queue: ' . $sitemap_url );
+			/** @var \Simply_Static\Page $static_page */
+			$static_page = Page::query()->find_or_initialize_by( 'url', $sitemap_url );
+			$static_page->set_status_message( __( 'Sitemap URL', 'simply-static' ) );
+			$static_page->found_on_id = 0;
+			$static_page->handler     = Yoast_Sitemap_Handler::class;
+			$static_page->save();
+		}
+	}
+
+	/**
+	 * Maybe add robots.txt and llms.txt to additional files when Yoast is active.
+	 *
+	 * Yoast may generate robots.txt dynamically (via WP core) and doesn't provide llms.txt by default,
+	 * but we still attempt to fetch both endpoints to maintain parity with other SEO plugins.
+	 *
+	 * @param array $additional_files
+	 * @return array
+	 */
+	public function maybe_add_text_files( $additional_files ) {
+		$additional_files = is_array( $additional_files ) ? $additional_files : [];
+
+		// Global flags and URL exclusions can disable robots.txt and llms.txt entirely.
+		$include_robots = (bool) apply_filters( 'ss_include_robots_txt_in_export', true )
+			&& ! Util::is_url_excluded( home_url( '/robots.txt' ) );
+		$include_llms   = (bool) apply_filters( 'ss_include_llms_txt_in_export', true )
+			&& ! Util::is_url_excluded( home_url( '/llms.txt' ) );
+
+		$robots_physical = ABSPATH . 'robots.txt';
+		$llms_physical   = ABSPATH . 'llms.txt';
+
+		// If a physical llms.txt exists in the WP root, ensure it is exported with URL replacements.
+		if ( $include_llms && file_exists( $llms_physical ) ) {
+			$body = @file_get_contents( $llms_physical );
+			if ( is_string( $body ) && $body !== '' ) {
+				$body = $this->replace_urls_in_text( $body );
+				$path = $this->write_archive_file( 'llms.txt', $body );
+				if ( $path ) {
+					$this->run_text_file_handler( 'llms.txt' );
+				}
+			}
+		} elseif ( ! $include_llms ) {
+			Util::debug_log( '[Yoast] llms.txt generation disabled by export settings or URL exclusions' );
+		}
+
+		$archive_dir = Options::instance()->get_archive_dir();
+		if ( ! file_exists( $archive_dir ) ) {
+			wp_mkdir_p( $archive_dir );
+		}
+
+		// robots.txt via public endpoint
+		if ( $include_robots && ! file_exists( $robots_physical ) ) {
+			$robots_url = home_url( '/robots.txt' );
+			$response   = $this->auth_remote_get( $robots_url, [ 'timeout' => 20 ] );
+			if ( ! is_wp_error( $response ) && (int) wp_remote_retrieve_response_code( $response ) === 200 ) {
+				$body = wp_remote_retrieve_body( $response );
+				$body = is_string( $body ) ? $body : '';
+				if ( $body !== '' && stripos( $body, '<html' ) === false ) {
+					$body = $this->replace_urls_in_text( $body );
+					$path = $this->write_archive_file( 'robots.txt', $body );
+					if ( $path ) {
+						$this->run_text_file_handler( 'robots.txt' );
+					}
+				}
+			}
+		} elseif ( ! $include_robots ) {
+			Util::debug_log( '[Yoast] robots.txt generation disabled by export settings or URL exclusions' );
+		}
+
+		// llms.txt via public endpoint (if available)
+		if ( $include_llms && ! file_exists( $llms_physical ) ) {
+			$llms_url = home_url( '/llms.txt' );
+			$response = $this->auth_remote_get( $llms_url, [ 'timeout' => 20 ] );
+			if ( ! is_wp_error( $response ) && (int) wp_remote_retrieve_response_code( $response ) === 200 ) {
+				$body = wp_remote_retrieve_body( $response );
+				$body = is_string( $body ) ? $body : '';
+				if ( $body !== '' && stripos( $body, '<html' ) === false ) {
+					$body = $this->replace_urls_in_text( $body );
+					$path = $this->write_archive_file( 'llms.txt', $body );
+					if ( $path ) {
+						$this->run_text_file_handler( 'llms.txt' );
+					}
+				}
+			}
+		} elseif ( ! $include_llms ) {
+			Util::debug_log( '[Yoast] llms.txt generation disabled by export settings or URL exclusions' );
+		}
+
+		return $additional_files;
+	}
+
+	/**
+	 * Write a file directly into the current archive directory.
+	 *
+	 * @param string $filename
+	 * @param string $content
+	 * @return string|null
+	 */
+	private function write_archive_file( $filename, $content ) {
+		$archive_dir = Options::instance()->get_archive_dir();
+		if ( empty( $archive_dir ) ) {
+			return null;
+		}
+		if ( ! file_exists( $archive_dir ) ) {
+			wp_mkdir_p( $archive_dir );
+		}
+		$path = trailingslashit( $archive_dir ) . ltrim( $filename, '/\\' );
+		$result = @file_put_contents( $path, $content );
+		return $result !== false ? $path : null;
+	}
+
+	/**
+	 * Replace origin URLs with destination URL inside a plain-text string.
+	 *
+	 * @param string $content
+	 * @return string
+	 */
+	private function replace_urls_in_text( $content ) {
+		return Util::replace_origin_urls_in_text( $content );
+	}
+
+	/**
+	 * Run the Text_File_Handler on a relative file within the archive directory.
+	 *
+	 * @param string $relative_filename
+	 * @return void
+	 */
+	private function run_text_file_handler( $relative_filename ) {
+		if ( ! class_exists( __NAMESPACE__ . '\\Text_File_Handler', false ) ) {
+			$this->include_file( 'handlers/class-ss-page-handler.php' );
+			$this->include_file( 'handlers/class-ss-text-file-handler.php' );
+		}
+		if ( ! class_exists( __NAMESPACE__ . '\\Page', false ) ) {
+			$this->include_file( 'models/class-ss-page.php' );
+		}
+		try {
+			$archive_dir = Options::instance()->get_archive_dir();
+			if ( empty( $archive_dir ) ) {
+				return;
+			}
+			$page = new Page();
+			$page->file_path = ltrim( $relative_filename, '/\\' );
+			$handler = new Text_File_Handler( $page );
+			$handler->after_file_fetch( $archive_dir );
+		} catch ( \Throwable $e ) {
+			// silent
+		}
+	}
+
+}

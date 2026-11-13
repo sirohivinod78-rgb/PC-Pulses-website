@@ -1,0 +1,15 @@
+<?php
+/**
+ * Jeg Kit SVG icon: digg-light.
+ *
+ * @package Jeg_Elementor_Kit
+ */
+
+return array(
+	'svg'   => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" aria-hidden="true"><g transform="translate(0 960) scale(1 -1)"><path fill="currentColor" d="M302 718h-60v-120h-120v-300h180v71v139v139v71zM242 358h-60v180h60v-180zM362 598h60v-300h-60v300zM0 810v-724q0 -62 44 -106t106 -44h724q62 0 106 44t44 106v724q0 62 -44 106t-106 44h-724q-62 0 -106 -44t-44 -106zM60 810q0 37 26.5 63.5t63.5 26.5h724
+q37 0 63.5 -26.5t26.5 -63.5v-724q0 -37 -26.5 -63.5t-63.5 -26.5h-724q-37 0 -63.5 26.5t-26.5 63.5v724zM362 718h60v-60h-60v60zM662 598h-180v-300h120v-60h-120v-60h180v72v139v138v71zM542 358v180h60v-180h-60zM902 598h-180v-300h120v-60h-120v-60h180v72v139v138
+v71zM782 358v180h60v-180h-60z"/></g></svg>',
+	'svg_6' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" aria-hidden="true"><g transform="translate(0 960) scale(1 -1)"><path fill="currentColor" d="M302 718h-60v-120h-120v-300h180v71v139v139v71zM242 358h-60v180h60v-180zM362 598h60v-300h-60v300zM0 810v-724q0 -62 44 -106t106 -44h724q62 0 106 44t44 106v724q0 62 -44 106t-106 44h-724q-62 0 -106 -44t-44 -106zM60 810q0 37 26.5 63.5t63.5 26.5h724
+q37 0 63.5 -26.5t26.5 -63.5v-724q0 -37 -26.5 -63.5t-63.5 -26.5h-724q-37 0 -63.5 26.5t-26.5 63.5v724zM362 718h60v-60h-60v60zM662 598h-180v-300h120v-60h-120v-60h180v72v139v138v71zM542 358v180h60v-180h-60zM902 598h-180v-300h120v-60h-120v-60h180v72v139v138
+v71zM782 358v180h60v-180h-60z"/></g></svg>',
+);

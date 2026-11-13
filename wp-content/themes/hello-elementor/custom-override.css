@@ -1,0 +1,285 @@
+/* Override Elementor button border-radius to make edges smooth */
+.elementor-button,
+.elementor-button.elementor-button-link,
+a.elementor-button,
+.elementor-widget-button .elementor-button,
+.ekit-mail-submit {
+    border-radius: 8px !important;
+}
+
+/* Apply to all button states */
+.elementor-button:hover,
+.elementor-button:focus,
+.elementor-button.elementor-button-link:hover,
+.elementor-button.elementor-button-link:focus,
+.ekit-mail-submit:hover,
+.ekit-mail-submit:focus {
+    border-radius: 8px !important;
+}
+
+/* Override inline style if present */
+[class*="elementor-button"] {
+    border-radius: 8px !important;
+}
+
+/* Make all boxes and containers have smooth edges */
+.elementor-column,
+.elementor-section,
+.elementor-container,
+.elementor-widget-container,
+.elementor-widget-wrap,
+.elementor-widget {
+    border-radius: 8px !important;
+}
+
+/* Cards and box elements */
+.elementor-post__card,
+.elementor-post-wrapper,
+[class*="card"],
+[class*="box"],
+.elementor-widget-image,
+.elementor-image-box,
+.elementor-icon-box {
+    border-radius: 8px !important;
+}
+
+/* General container and divs with background */
+.elementor-background-overlay {
+    border-radius: 8px !important;
+}
+
+/* Form elements and inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="date"],
+textarea,
+select {
+    border-radius: 6px !important;
+}
+
+/* Rounded corners for any element with background color */
+div[style*="background-color"],
+div[style*="background"],
+[class*="elementor"][style*="border-radius:0"] {
+    border-radius: 8px !important;
+}
+
+/* Blog post boxes and content boxes */
+.post-item,
+.elementor-post-item,
+article,
+.page,
+.entry,
+[class*="block"] {
+    border-radius: 8px !important;
+}
+
+/* WooCommerce product boxes */
+.product,
+.product-item {
+    border-radius: 8px !important;
+}
+
+/* Embossed logo treatment for WordPress and Elementor site headers */
+.site-header .site-logo img,
+.site-header .custom-logo-link img,
+.site-header img.custom-logo,
+.site-header .elementor-widget-theme-site-logo img,
+.site-header .elementor-widget-site-logo img,
+.site-header .elementor-widget-image img,
+.elementor-location-header .site-logo img,
+.elementor-location-header .custom-logo-link img,
+.elementor-location-header img.custom-logo,
+.elementor-location-header .elementor-widget-theme-site-logo img,
+.elementor-location-header .elementor-widget-site-logo img,
+.elementor-location-header .elementor-widget-image img,
+.site-footer .site-logo img,
+.site-footer .custom-logo-link img,
+.site-footer img.custom-logo,
+.site-footer .elementor-widget-theme-site-logo img,
+.site-footer .elementor-widget-site-logo img,
+.site-footer .elementor-widget-image img,
+.elementor-location-footer .site-logo img,
+.elementor-location-footer .custom-logo-link img,
+.elementor-location-footer img.custom-logo,
+.elementor-location-footer .elementor-widget-theme-site-logo img,
+.elementor-location-footer .elementor-widget-site-logo img,
+.elementor-location-footer .elementor-widget-image img {
+    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.7))
+            drop-shadow(4px 5px 4px rgba(0, 0, 0, 0.4)) !important;
+    transition: filter 0.25s ease, transform 0.25s ease;
+}
+
+.site-header .site-logo img:hover,
+.site-header .custom-logo-link img:hover,
+.site-header img.custom-logo:hover,
+.site-header .elementor-widget-theme-site-logo img:hover,
+.site-header .elementor-widget-site-logo img:hover,
+.site-header .elementor-widget-image img:hover,
+.elementor-location-header .site-logo img:hover,
+.elementor-location-header .custom-logo-link img:hover,
+.elementor-location-header img.custom-logo:hover,
+.elementor-location-header .elementor-widget-theme-site-logo img:hover,
+.elementor-location-header .elementor-widget-site-logo img:hover,
+.elementor-location-header .elementor-widget-image img:hover,
+.site-footer .site-logo img:hover,
+.site-footer .custom-logo-link img:hover,
+.site-footer img.custom-logo:hover,
+.site-footer .elementor-widget-theme-site-logo img:hover,
+.site-footer .elementor-widget-site-logo img:hover,
+.site-footer .elementor-widget-image img:hover,
+.elementor-location-footer .site-logo img:hover,
+.elementor-location-footer .custom-logo-link img:hover,
+.elementor-location-footer img.custom-logo:hover,
+.elementor-location-footer .elementor-widget-theme-site-logo img:hover,
+.elementor-location-footer .elementor-widget-site-logo img:hover,
+.elementor-location-footer .elementor-widget-image img:hover {
+    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.8))
+            drop-shadow(5px 6px 5px rgba(0, 0, 0, 0.45)) !important;
+    transform: translateY(-1px);
+}
+
+/* Keep the PC Builder header logo embossed when page-specific styles apply. */
+.pc-builder-page .elementor-location-header .site-logo img,
+.pc-builder-page .elementor-location-header .custom-logo-link img,
+.pc-builder-page .elementor-location-header .elementor-widget-theme-site-logo img,
+.pc-builder-page .elementor-location-header .elementor-widget-site-logo img,
+.pc-builder-page .elementor-location-header .elementor-widget-image img,
+.pc-builder-page .site-header .site-logo img,
+.pc-builder-page .site-header .custom-logo-link img,
+.pc-builder-page .site-header .elementor-widget-theme-site-logo img,
+.pc-builder-page .site-header .elementor-widget-site-logo img,
+.pc-builder-page .site-header .elementor-widget-image img {
+    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.7))
+            drop-shadow(4px 5px 4px rgba(0, 0, 0, 0.4)) !important;
+}
+
+.pc-builder-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: #FF4255;
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    border: 1px solid transparent;
+    margin-left: 18px;
+}
+
+.pc-builder-cta:hover,
+.pc-builder-cta:focus {
+    background: #e63f54;
+    box-shadow: 0 10px 22px rgba(255, 66, 85, 0.2);
+    transform: translateY(-1px);
+}
+
+.pc-builder-page .pc-builder-cta,
+.pc-builder-page .elementor-location-header .elementor-element-19ab8f28 {
+    display: none !important;
+}
+
+.pc-builder-page button,
+.pc-builder-page input[type="button"],
+.pc-builder-page input[type="submit"],
+.pc-builder-page a.button {
+    border-radius: 8px !important;
+}
+
+@media (max-width: 768px) {
+    .pc-builder-cta {
+        width: 100%;
+        margin: 18px 0 0;
+    }
+}
+
+/* Keep homepage Elementor backgrounds independent of the site's hostname. */
+.elementor-102 .elementor-element.elementor-element-18c322cd:not(.elementor-motion-effects-element-type-background),
+.elementor-102 .elementor-element.elementor-element-18c322cd:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap,
+.elementor-102 .elementor-element.elementor-element-18c322cd > .elementor-widget-wrap > .elementor-motion-effects-container > .elementor-motion-effects-layer,
+.elementor-102 .elementor-element.elementor-element-18c322cd > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+    background-image: url("../../uploads/2025/02/business-people-working-together.jpg");
+}
+
+.elementor-102 .elementor-element.elementor-element-3379b2ef:not(.elementor-motion-effects-element-type-background),
+.elementor-102 .elementor-element.elementor-element-3379b2ef:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap,
+.elementor-102 .elementor-element.elementor-element-3379b2ef > .elementor-widget-wrap > .elementor-motion-effects-container > .elementor-motion-effects-layer,
+.elementor-102 .elementor-element.elementor-element-3379b2ef > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+    background-image: url("../../uploads/2025/02/business-team-celebrating-with-raised-up-hands-.jpg");
+}
+
+.elementor-102 .elementor-element.elementor-element-4a4455f4:not(.elementor-motion-effects-element-type-background),
+.elementor-102 .elementor-element.elementor-element-4a4455f4:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap,
+.elementor-102 .elementor-element.elementor-element-4a4455f4 > .elementor-widget-wrap > .elementor-motion-effects-container > .elementor-motion-effects-layer,
+.elementor-102 .elementor-element.elementor-element-4a4455f4 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+    background-image: url("../../uploads/2025/02/worldmap-Q676QDA.png");
+}
+
+.elementor-102 .elementor-element.elementor-element-8154a1c:not(.elementor-motion-effects-element-type-background),
+.elementor-102 .elementor-element.elementor-element-8154a1c:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap,
+.elementor-102 .elementor-element.elementor-element-8154a1c > .elementor-widget-wrap > .elementor-motion-effects-container > .elementor-motion-effects-layer,
+.elementor-102 .elementor-element.elementor-element-8154a1c > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+    background-image: url("../../uploads/2025/02/team-of-engineers-working.jpg");
+}
+
+.elementor-102 .elementor-element.elementor-element-76cf95a0:not(.elementor-motion-effects-element-type-background),
+.elementor-102 .elementor-element.elementor-element-76cf95a0:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap,
+.elementor-102 .elementor-element.elementor-element-76cf95a0 > .elementor-widget-wrap > .elementor-motion-effects-container > .elementor-motion-effects-layer,
+.elementor-102 .elementor-element.elementor-element-76cf95a0 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+    background-image: url("../../uploads/2025/02/coworking-colleagues-having-conversation-at-workplace-1.jpg");
+}
+
+/* The homepage slideshow data still contains the previous local hostname. */
+.elementor-102 .elementor-element.elementor-element-2464c76b .elementor-background-slideshow__slide[data-swiper-slide-index="0"] .elementor-background-slideshow__slide__image {
+    background-image: url("/wp-content/uploads/2025/02/team-working-together-.jpg") !important;
+}
+
+.elementor-102 .elementor-element.elementor-element-2464c76b .elementor-background-slideshow__slide[data-swiper-slide-index="1"] .elementor-background-slideshow__slide__image {
+    background-image: url("/wp-content/uploads/2025/02/team-of-software-engineers-in-office.jpg") !important;
+}
+
+.elementor-102 .elementor-element.elementor-element-2464c76b .elementor-background-slideshow__slide[data-swiper-slide-index="2"] .elementor-background-slideshow__slide__image {
+    background-image: url("/wp-content/uploads/2025/02/teamwork-.jpg") !important;
+}
+
+/* Reduce the homepage hero height while keeping its content clear of the header. */
+.elementor-102 .elementor-element.elementor-element-2464c76b {
+    padding: 100px 0 84px !important;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .elementor-102 .elementor-element.elementor-element-2464c76b {
+        padding: 98px 10px 70px !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .elementor-102 .elementor-element.elementor-element-2464c76b {
+        padding: 100px 10px 24px !important;
+    }
+
+    .elementor-102 .elementor-element.elementor-element-2464c76b .elementor-element-6f18e09a {
+        width: auto !important;
+        max-width: 100%;
+        margin-bottom: 12px;
+    }
+
+    .elementor-102 .elementor-element.elementor-element-2464c76b .elementor-element-6f18e09a .elementor-heading-title {
+        font-size: 32px;
+    }
+
+    .elementor-102 .elementor-element.elementor-element-2464c76b .elementor-element-187323f6 {
+        margin-bottom: 12px;
+    }
+
+    .elementor-102 .elementor-element.elementor-element-2464c76b .elementor-element-187323f6 p {
+        font-size: 14px;
+    }
+}

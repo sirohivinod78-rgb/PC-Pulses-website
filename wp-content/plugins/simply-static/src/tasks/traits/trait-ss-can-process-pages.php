@@ -1,0 +1,615 @@
+<?php
+
+namespace Simply_Static;
+
+trait canProcessPages {
+
+	/**
+	 * Start Time of the Task to process pages.
+	 *
+	 * @var null
+	 */
+	protected $start_time = null;
+
+	/**
+	 * Batch Size.
+	 *
+	 * @var int
+	 */
+	protected $batch_size = 50;
+
+	/**
+	 * Processing Column.
+	 *
+	 * @var string
+	 */
+	protected $processing_column = 'last_transferred_at';
+
+	/**
+	 * If this is false, it won't check for file path in queries.
+	 *
+	 * @var bool
+	 */
+	protected $needs_file_path = true;
+
+	/**
+	 * Get batch size.
+	 *
+	 * @return mixed
+	 */
+	protected function get_batch_size() {
+		return apply_filters( 'simply_static_' . static::$task_name . '_batch_size', $this->batch_size );
+	}
+
+	/**
+	 * Set Start Time
+	 *
+	 * @return void
+	 */
+	public function set_start_time() {
+		$this->start_time = $this->options->get( 'archive_start_time' );
+	}
+
+	/**
+	 * Get the start time.
+	 * If null, it'll set the start time as well.
+	 *
+	 * @return null
+	 */
+	public function get_start_time() {
+		if ( null === $this->start_time ) {
+			$this->set_start_time();
+		}
+
+		return $this->start_time;
+	}
+
+	/**
+	 * Get generation type (export, update, build)
+	 *
+	 * @return mixed|string|null
+	 */
+	public function get_generate_type() {
+		$type = $this->options->get( 'generate_type' );
+
+		if ( ! $type ) {
+			$type = 'export';
+		}
+
+		return $type;
+	}
+
+	/**
+	 * Restore claims left by a worker that ended before completing a page.
+	 *
+	 * The archive job calls this only while it owns the process lock, before
+	 * starting a task. A successful page clears fetch_attempts; a current
+	 * processing timestamp with attempts remaining therefore identifies an
+	 * interrupted claim, including an interrupted final attempt.
+	 *
+	 * @return int Number of interrupted claims restored.
+	 */
+	public function recover_interrupted_pages() {
+		if ( ! in_array( $this->processing_column, array( 'last_checked_at', 'last_transferred_at' ), true ) ) {
+			throw new \InvalidArgumentException( 'A valid page processing column is required.' );
+		}
+
+		$start_time = $this->get_start_time();
+		if ( ! is_string( $start_time ) || '' === $start_time ) {
+			return 0;
+		}
+
+		global $wpdb;
+		$table_name = Page::table_name();
+		// An interrupted fetch may have saved a partial file before it stopped.
+		// Transfer retries still need their existing generated file.
+		$clear_file_path = 'fetch_urls' === static::$task_name && 'last_checked_at' === $this->processing_column ? ', file_path = NULL' : '';
+		$recovered = $wpdb->query( $wpdb->prepare(
+			"UPDATE {$table_name} SET {$this->processing_column} = NULL{$clear_file_path} WHERE {$this->processing_column} >= %s AND fetch_attempts > 0",
+			$start_time
+		) );
+
+		if ( false === $recovered ) {
+			throw new \RuntimeException( 'Unable to restore interrupted page processing claims.' );
+		}
+
+		if ( $recovered > 0 ) {
+			Util::debug_log( 'Restored ' . $recovered . ' interrupted page processing claims for ' . static::$task_name . '.' );
+		}
+
+		return (int) $recovered;
+	}
+
+	/**
+	 * Maximum number of seconds process_pages() should run before yielding
+	 * back to the background process dispatcher.
+	 *
+	 * Keeping this below the background process' default 20 second
+	 * continuation window prevents the PHP process from spending too long
+	 * inside a single task before the dispatcher can hand off the next
+	 * request.
+	 *
+	 * Filterable via `simply_static_max_batch_time`.
+	 *
+	 * @var int
+	 */
+	protected $max_batch_time = 15;
+
+	/**
+	 * Process Pages that have to be processed/transferred.
+	 *
+	 * @return bool|\WP_Error True when done, false when work remains, or a page write error.
+	 * @throws \Exception
+	 */
+	public function process_pages() {
+		$page_write_error = $this->get_page_write_error();
+		if ( $page_write_error ) {
+			return $page_write_error;
+		}
+
+		$pages_to_process       = $this->get_pages_to_process();
+		$pages_to_process_count = count( $pages_to_process );
+
+		Util::debug_log( 'Pages in processing batch: ' . $pages_to_process_count );
+
+		if ( $pages_to_process_count === 0 ) {
+			$total_pages     = $this->get_total_pages();
+			$processed_pages = $this->get_processed_pages();
+			$message         = $this->processed_pages_message( $processed_pages, $total_pages );
+			// In 404-only exports, force the transfer log to reflect a single artifact.
+			$only_404 = get_option( 'simply-static-404-only' );
+			if ( ! empty( $only_404 ) ) {
+				$message = sprintf(
+					/* translators: 1: number of files transferred, 2: total number of files. */
+					__( 'Transferred %1$d of %2$d files', 'simply-static' ),
+					1,
+					1
+				);
+			}
+			$this->save_status_message( $message );
+
+			$skipped_pages = $this->get_exhausted_pages_count();
+			if ( $skipped_pages > 0 ) {
+				$skipped_message = sprintf(
+					/* translators: %d: number of skipped pages/files. */
+					_n(
+						'Skipped %d page or file after repeated processing attempts.',
+						'Skipped %d pages or files after repeated processing attempts.',
+						$skipped_pages,
+						'simply-static'
+					),
+					$skipped_pages
+				);
+				$this->save_status_message( $skipped_message, static::$task_name . '_warning' );
+			}
+
+			return true; // No Pages to process anymore. It's done.
+		}
+
+		// Time-limit awareness: yield back to handle() before the server
+		// hard-kills the PHP process on restricted hosting.
+		$batch_start          = time();
+		$max_batch_time       = (int) apply_filters( 'simply_static_max_batch_time', $this->max_batch_time );
+		$had_processing_error = false;
+
+ 	while ( $static_page = array_shift( $pages_to_process ) ) {
+			// Yield if we are approaching the time limit.
+			if ( ( time() - $batch_start ) >= $max_batch_time ) {
+				Util::debug_log( 'Batch time limit (' . $max_batch_time . 's) reached; yielding to allow re-dispatch.' );
+				break;
+			}
+
+			if ( method_exists( $this, 'check_if_running' ) ) {
+				$this->check_if_running();
+			}
+
+			// A task can begin near the end of an existing worker window.
+			// Check that shared budget before claiming another page.
+			if ( ! $this->can_continue_processing() ) {
+				break;
+			}
+
+			// Atomically claim this page so that concurrent workers (e.g.
+			// overlapping PHP-FPM requests in web export mode) cannot process
+			// the same page simultaneously, which would cause file corruption
+			// (0-byte files) due to concurrent file_put_contents writes.
+			global $wpdb;
+			$table_name = Page::table_name();
+			$start_time = $this->get_start_time();
+			if ( $static_page instanceof Page ) {
+				$claimed = $static_page->claim_for_processing( $this->processing_column, $start_time );
+			} else {
+				// Preserve support for extensions that provide page-like objects.
+				$now     = Util::formatted_datetime();
+				$claimed = $wpdb->query( $wpdb->prepare(
+					"UPDATE {$table_name} SET {$this->processing_column} = %s WHERE id = %d AND ( {$this->processing_column} IS NULL OR {$this->processing_column} < %s )",
+					$now,
+					$static_page->id,
+					$start_time
+				) );
+				if ( $claimed ) {
+					$static_page->{$this->processing_column} = $now;
+					$static_page->fetch_attempts = (int) $static_page->fetch_attempts + 1;
+					$static_page->save();
+				}
+			}
+
+			if ( ! $claimed ) {
+				continue;
+			}
+
+			try {
+				$this->process_page( $static_page );
+
+				// Retry attempts belong to the current processing stage. Once a
+				// stage succeeds, clear the counter so a later Core or Pro stage
+				// receives its own full retry allowance for the same page.
+				$static_page->fetch_attempts = 0;
+				$static_page->{$this->processing_column} = Util::formatted_datetime();
+				$static_page->save();
+
+				// Refresh the background-process lock after each page so it
+				// does not expire during long batches, which would cause the
+				// cron healthcheck to spawn a concurrent worker.
+				$this->maybe_refresh_process_lock();
+			} catch ( Skip_Further_Processing_Exception $e ) {
+				$had_processing_error = true;
+				Util::debug_log( 'Encountered Processing Error. We are skipping further until next iteration. Error: ' . $e->getMessage() );
+				// Reset the claim so the page can be retried on next iteration.
+				$wpdb->query( $wpdb->prepare(
+					"UPDATE {$table_name} SET {$this->processing_column} = NULL WHERE id = %d",
+					$static_page->id
+				) );
+				// Keep the in-memory record in sync so save() cannot restore the claim.
+				$static_page->{$this->processing_column} = null;
+				$static_page->set_error_message( $e->getMessage() );
+				$static_page->save();
+				$this->maybe_yield_process();
+				break;
+			} catch ( \Exception $e ) {
+				$had_processing_error = true;
+				Util::debug_log( 'Page URL: ' . $static_page->url . ' not being processed. Error: ' . $e->getMessage() );
+				// Reset the claim so the page can be retried on next iteration.
+				$wpdb->query( $wpdb->prepare(
+					"UPDATE {$table_name} SET {$this->processing_column} = NULL WHERE id = %d",
+					$static_page->id
+				) );
+				// Keep the in-memory record in sync so save() cannot restore the claim.
+				$static_page->{$this->processing_column} = null;
+				$static_page->set_error_message( $e->getMessage() );
+				$static_page->save();
+			} catch ( \Throwable $e ) {
+				$had_processing_error = true;
+				Util::debug_log( 'Page URL: ' . $static_page->url . ' not being processed. Error: ' . $e->getMessage() );
+				// Reset the claim so the page can be retried on next iteration.
+				$wpdb->query( $wpdb->prepare(
+					"UPDATE {$table_name} SET {$this->processing_column} = NULL WHERE id = %d",
+					$static_page->id
+				) );
+				// Keep the in-memory record in sync so save() cannot restore the claim.
+				$static_page->{$this->processing_column} = null;
+				$static_page->set_error_message( $e->getMessage() );
+				$static_page->save();
+			}
+		}
+
+		// A per-page exception handler may have recovered from an unrelated
+		// error after a failed save. Keep that failed write terminal even if a
+		// later write succeeded, especially in the synchronous CLI task loop.
+		$page_write_error = $this->get_page_write_error();
+		if ( $page_write_error ) {
+			return $page_write_error;
+		}
+
+		$total_pages     = $this->get_total_pages();
+		$processed_pages = $this->get_processed_pages();
+		$message         = $this->processed_pages_message( $processed_pages, $total_pages );
+		$this->save_status_message( $message );
+		Util::debug_log( "Total pages: " . $total_pages . '; Pages remaining: ' . ( $total_pages - $processed_pages ) );
+
+		// Exhausted attempts are excluded from totals. Revisit an error batch
+		// once more so the empty-queue branch records its skipped-page warning.
+		return ! $had_processing_error && $processed_pages >= $total_pages;
+	}
+
+	/**
+	 * Count pending rows that have exhausted their retry allowance.
+	 *
+	 * @return int
+	 */
+	protected function get_exhausted_pages_count() {
+		$start_time = $this->get_start_time();
+		$query      = $this->get_main_query();
+
+		if ( 'export' === $this->get_generate_type() ) {
+			$query->where( "( {$this->processing_column} < ? OR {$this->processing_column} IS NULL )", $start_time );
+		}
+
+		if ( 'update' === $this->get_generate_type() ) {
+			$query->where( "( ( {$this->processing_column} < last_modified_at AND {$this->processing_column} < ? ) OR {$this->processing_column} IS NULL )", $start_time );
+		}
+
+		$query->where( 'fetch_attempts >= 3' );
+
+		$use_single = get_option( 'simply-static-use-single' );
+		if ( ! empty( $use_single ) ) {
+			$ids = array_values( array_filter( array_map( 'intval', explode( ',', $use_single ) ) ) );
+			if ( count( $ids ) === 1 ) {
+				$query->where( 'post_id = ?', $ids[0] );
+			} elseif ( ! empty( $ids ) ) {
+				$query->where( 'post_id IN (' . implode( ',', $ids ) . ')' );
+			}
+		}
+
+		$build_id = get_option( 'simply-static-use-build' );
+		if ( ! empty( $build_id ) ) {
+			$query->where( 'build_id = ?', $build_id );
+		}
+
+		return (int) $query->count();
+	}
+
+	/**
+	 * @param Page $static_page Page object.
+	 *
+	 * @return void
+	 */
+	protected function process_page( $static_page ) {
+	}
+
+	/**
+	 * Message to set when processed pages.
+	 *
+	 * @param integer $processed Number of pages processed.
+	 * @param integer $total Number of total pages to process.
+	 *
+	 * @return string
+	 */
+	protected function processed_pages_message( $processed, $total ) {
+		return sprintf(
+			/* translators: 1: number of files uploaded, 2: total number of files. */
+			__( 'Uploaded %1$d of %2$d files', 'simply-static' ),
+			$processed,
+			$total
+		);
+	}
+
+	/**
+	 * Return the number of processed pages.
+	 *
+	 * @return int|null
+	 * @throws \Exception
+	 */
+	public function get_processed_pages() {
+		$query = $this->get_processed_pages_sql();
+
+		return $query->count();
+	}
+
+	/**
+	 * Return the query for processed pages.
+	 *
+	 * @return Query
+	 * @throws \Exception
+	 */
+	public function get_processed_pages_sql() {
+		$start_time = $this->get_start_time();
+		$query      = $this->get_main_query();
+
+		if ( 'export' === $this->get_generate_type() ) {
+			$query->where( "{$this->processing_column} >= ?", $start_time );
+		}
+
+		if ( 'update' === $this->get_generate_type() ) {
+			$query->where( "{$this->processing_column} >= last_modified_at" );
+			$query->where( "{$this->processing_column} >= ?", $start_time );
+		}
+
+		return $query;
+	}
+
+	/**
+	 * Get pages to process, in batches.
+	 *
+	 * @return array|null
+	 * @throws \Exception
+	 */
+	public function get_pages_to_process() {
+		$batch_size = $this->get_batch_size();
+		$query      = $this->get_pages_to_process_sql();
+
+		return $query->limit( $batch_size )->find();
+	}
+
+	/**
+	 * Get the Pages to process SQL.
+	 *
+	 * @return Query
+	 * @throws \Exception
+	 */
+	public function get_pages_to_process_sql() {
+		$start_time = $this->get_start_time();
+		$query      = $this->get_main_query();
+
+		if ( 'export' === $this->get_generate_type() ) {
+			$query->where( "( {$this->processing_column} < ? OR {$this->processing_column} IS NULL )", $start_time );
+		}
+
+		if ( 'update' === $this->get_generate_type() ) {
+			$query->where( "( ( {$this->processing_column} < last_modified_at AND {$this->processing_column} < ? ) OR {$this->processing_column} IS NULL )", $start_time );
+		}
+
+		$query->where( "fetch_attempts < 3" );
+
+		// Modify the query based on post id column.
+		$use_single = get_option( 'simply-static-use-single' );
+
+		if ( ! empty( $use_single ) ) {
+			$ids = array_map( 'intval', explode( ',', $use_single ) );
+			if ( count( $ids ) === 1 ) {
+				$query->where( "post_id = ?", $ids[0] );
+			} else {
+				$in_clause = implode( ',', $ids );
+				$query->where( "post_id IN ({$in_clause})" );
+			}
+		}
+
+		// Modify the query based on build id column.
+		$build_id = get_option( 'simply-static-use-build' );
+
+		if ( ! empty( $build_id ) ) {
+			$query->where( "build_id = ?", $build_id );
+		}
+
+		return $query;
+	}
+
+	public function get_total_pages( $cached = true ) {
+		if ( ! $cached ) {
+			return $this->get_total_pages_sql();
+		}
+
+		$option_name = 'simply_static_' . static::$task_name . '_total_pages';
+		$count       = get_option( $option_name );
+
+		if ( false === $count ) {
+			$count = $this->get_total_pages_sql();
+			update_option( $option_name, $count );
+		} else {
+			$count = (int) $count;
+		}
+
+		if ( 'update' === $this->get_generate_type() ) {
+			$current_total = $this->get_processed_pages() + $this->get_total_pages_sql();
+		} else {
+			$current_total = $this->get_total_pages_sql();
+		}
+
+		if ( $current_total > $count ) {
+			$count = $current_total;
+			update_option( $option_name, $count );
+		}
+
+		return $count;
+	}
+
+	public static function delete_total_pages() {
+		delete_option( 'simply_static_' . static::$task_name . '_total_pages' );
+	}
+
+	/**
+	 * Get number of total pages.
+	 *
+	 * @return int|null
+	 * @throws \Exception
+	 */
+	public function get_total_pages_sql() {
+		$query      = $this->get_main_query();
+		$start_time = $this->get_start_time();
+
+		// Caching totals so this is fetched on first run (all pages already fetched).
+		if ( 'update' === $this->get_generate_type() ) {
+			$query->where( "( ( {$this->processing_column} < last_modified_at AND {$this->processing_column} < ? ) OR {$this->processing_column} IS NULL )", $start_time );
+			Util::debug_log( 'Total Pages Query: ' . $query->get_raw_sql( "COUNT(*)" ) );
+		}
+
+		// Modify the query based on post id column.
+		$use_single = get_option( 'simply-static-use-single' );
+
+		if ( ! empty( $use_single ) ) {
+			$ids = array_map( 'intval', explode( ',', $use_single ) );
+			if ( count( $ids ) === 1 ) {
+				$query->where( "post_id = ?", $ids[0] );
+			} else {
+				$in_clause = implode( ',', $ids );
+				$query->where( "post_id IN ({$in_clause})" );
+			}
+		}
+
+		// Modify the query based on build id column.
+		$build_id = get_option( 'simply-static-use-build' );
+
+		if ( ! empty( $build_id ) ) {
+			$query->where( "build_id = ?", $build_id );
+		}
+
+		$query->where( "fetch_attempts < 3" );
+
+		return $query->count();
+	}
+
+	/**
+	 * Get the main Query.
+	 *
+	 * @return Query|\Simply_Static\Query
+	 * @throws \Exception
+	 */
+	public function get_main_query() {
+
+		$query = Page::query();
+
+		if ( $this->needs_file_path ) {
+			$query->where( "file_path IS NOT NULL" );
+			$query->where( "file_path != ''" );
+		}
+
+		return $query;
+	}
+
+	/** Respect an active worker's limits while allowing direct task calls. */
+	protected function can_continue_processing() {
+		try {
+			$job = Plugin::instance()->get_archive_creation_job();
+			if ( $job && method_exists( $job, 'is_worker_active' ) && $job->is_worker_active() && method_exists( $job, 'should_continue' ) ) {
+				return $job->should_continue();
+			}
+		} catch ( \Throwable $e ) {
+			// Direct task callers may not have an initialized background job.
+		}
+
+		return true;
+	}
+
+	/** End this worker window so transient failures retry in a later request. */
+	protected function maybe_yield_process() {
+		try {
+			$job = Plugin::instance()->get_archive_creation_job();
+			if ( $job && method_exists( $job, 'request_yield' ) ) {
+				$job->request_yield();
+			}
+		} catch ( \Throwable $e ) {
+			// Direct task callers may not have a background job to yield.
+		}
+	}
+
+	/**
+	 * Refresh the background-process lock to prevent it from expiring
+	 * during long-running page batches.
+	 *
+	 * When `process_pages()` takes longer than the lock TTL (default 60 s),
+	 * the cron healthcheck sees no lock and dispatches a second worker,
+	 * leading to race conditions and potential stalls. Calling this after
+	 * each page keeps the lock alive.
+	 *
+	 * @return void
+	 */
+	protected function maybe_refresh_process_lock() {
+		try {
+			$job = Plugin::instance()->get_archive_creation_job();
+			if ( $job && method_exists( $job, 'lock_process' ) ) {
+				$job->lock_process( false );
+			}
+		} catch ( \Exception $e ) {
+			// Silently ignore — lock refresh is best-effort.
+		}
+	}
+
+	/**
+	 * Cleanup
+	 *
+	 * @return void
+	 */
+	public function cleanup() {
+		self::delete_total_pages();
+	}
+}

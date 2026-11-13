@@ -1,0 +1,19 @@
+Font Awesome Free 5.15.3
+https://fontawesome.com
+
+This directory vendors a trimmed subset of Font Awesome Free (base CSS +
+Solid/Regular/Brands styles, WOFF2/WOFF webfonts only — EOT/TTF/SVG variants
+and the JSON metadata were dropped as unused by MetForm's icon picker) so
+that MetForm's own-builder Icon control does not depend on Elementor being
+active. Original files copied from Elementor's own bundled copy at
+wp-content/plugins/elementor/assets/lib/font-awesome/.
+
+Font Awesome Free is free, open source, and GPL friendly. You can use it for
+commercial projects, open source projects, or really almost whatever you
+want.
+
+- Icons: CC BY 4.0 License (https://creativecommons.org/licenses/by/4.0/)
+- Fonts: SIL OFL 1.1 License (https://scripts.sil.org/OFL)
+- Code:  MIT License (https://opensource.org/licenses/MIT)
+
+Full license terms: https://fontawesome.com/license/free

@@ -1,0 +1,1163 @@
+{
+    "manifest_version": "1.0.19",
+    "title": "Mindtech \u2013 IT Solutions & Services Company Elementor Template Kit",
+    "page_builder": "elementor",
+    "kit_version": "1.0.1",
+    "templates": [
+        {
+            "name": "Global Kit Styles",
+            "screenshot": "screenshots\/global-kit-styles.jpg",
+            "source": "templates\/global.json",
+            "preview_url": "https:\/\/kit.baliniz.com",
+            "type": "section",
+            "category": "page",
+            "metadata": {
+                "template_type": "global-styles",
+                "include_in_zip": "1",
+                "elementor_pro_required": null,
+                "additional_template_information": [
+                    "These are the global theme styles configured through the Elementor Theme Styles area."
+                ]
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "MetForm Quote",
+            "screenshot": "screenshots\/metform-quote.jpg",
+            "source": "templates\/metform-quote.json",
+            "preview_url": "https:\/\/kit.baliniz.com\/mindtech\/template-kit\/metform-quote\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Home",
+            "screenshot": "screenshots\/home.jpg",
+            "source": "templates\/home.json",
+            "preview_url": "https:\/\/kit.baliniz.com\/mindtech\/template-kit\/home\/",
+            "type": "section",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-home",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "About Us",
+            "screenshot": "screenshots\/about-us.jpg",
+            "source": "templates\/about-us.json",
+            "preview_url": "https:\/\/kit.baliniz.com\/mindtech\/template-kit\/about-us\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Services",
+            "screenshot": "screenshots\/services.jpg",
+            "source": "templates\/services.json",
+            "preview_url": "https:\/\/kit.baliniz.com\/mindtech\/template-kit\/services\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Cases",
+            "screenshot": "screenshots\/cases.jpg",
+            "source": "templates\/cases.json",
+            "preview_url": "https:\/\/kit.baliniz.com\/mindtech\/template-kit\/cases\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Case Details",
+            "screenshot": "screenshots\/case-details.jpg",
+            "source": "templates\/case-details.json",
+            "preview_url": "https:\/\/kit.baliniz.com\/mindtech\/template-kit\/case-details\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Pricing",
+            "screenshot": "screenshots\/pricing.jpg",
+            "source": "templates\/pricing.json",
+            "preview_url": "https:\/\/kit.baliniz.com\/mindtech\/template-kit\/pricing\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Our Team",
+            "screenshot": "screenshots\/our-team.jpg",
+            "source": "templates\/our-team.json",
+            "preview_url": "https:\/\/kit.baliniz.com\/mindtech\/template-kit\/our-team\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "FAQ",
+            "screenshot": "screenshots\/faq.jpg",
+            "source": "templates\/faq.json",
+            "preview_url": "https:\/\/kit.baliniz.com\/mindtech\/template-kit\/faq\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Blog",
+            "screenshot": "screenshots\/blog.jpg",
+            "source": "templates\/blog.json",
+            "preview_url": "https:\/\/kit.baliniz.com\/mindtech\/template-kit\/blog\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Single Blog",
+            "screenshot": "screenshots\/single-blog.jpg",
+            "source": "templates\/single-blog.json",
+            "preview_url": "https:\/\/kit.baliniz.com\/mindtech\/template-kit\/single-blog\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "MetForm Contact",
+            "screenshot": "screenshots\/metform-contact.jpg",
+            "source": "templates\/metform-contact.json",
+            "preview_url": "https:\/\/kit.baliniz.com\/mindtech\/template-kit\/metform-contact\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Contact",
+            "screenshot": "screenshots\/contact.jpg",
+            "source": "templates\/contact.json",
+            "preview_url": "https:\/\/kit.baliniz.com\/mindtech\/template-kit\/contact\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Header",
+            "screenshot": "screenshots\/header.jpg",
+            "source": "templates\/header.json",
+            "preview_url": "https:\/\/kit.baliniz.com\/mindtech\/template-kit\/header\/",
+            "type": "section",
+            "category": "section",
+            "metadata": {
+                "template_type": "section-header",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Footer",
+            "screenshot": "screenshots\/footer.jpg",
+            "source": "templates\/footer.json",
+            "preview_url": "https:\/\/kit.baliniz.com\/mindtech\/template-kit\/footer\/",
+            "type": "section",
+            "category": "section",
+            "metadata": {
+                "template_type": "section-footer",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "404 Page",
+            "screenshot": "screenshots\/404-page.jpg",
+            "source": "templates\/404-page.json",
+            "preview_url": "https:\/\/kit.baliniz.com\/mindtech\/template-kit\/404-page\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        }
+    ],
+    "required_plugins": [
+        {
+            "name": "ElementsKit Lite",
+            "version": "2.2.2",
+            "file": "elementskit-lite\/elementskit-lite.php",
+            "author": "Wpmet"
+        },
+        {
+            "name": "Jeg Elementor Kit",
+            "version": "1.8.2",
+            "file": "jeg-elementor-kit\/jeg-elementor-kit.php",
+            "author": "JegStudio"
+        },
+        {
+            "name": "MetForm",
+            "version": "1.4.7",
+            "file": "metform\/metform.php",
+            "author": "Wpmet"
+        },
+        {
+            "name": "Elementor",
+            "version": "3.2.2",
+            "file": "elementor\/elementor.php",
+            "author": "Elementor.com"
+        }
+    ],
+    "images": [
+        {
+            "filename": "team-working-together--e1618326941783.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/team-working-together--800x534.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                }
+            ],
+            "filesize": 228915,
+            "dimensions": [
+                1920,
+                1281
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-MTJG65K"
+        },
+        {
+            "filename": "team-of-software-engineers-in-office-e1618326918951.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/team-of-software-engineers-in-office-800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                }
+            ],
+            "filesize": 300335,
+            "dimensions": [
+                1920,
+                1280
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-WMALSH2"
+        },
+        {
+            "filename": "teamwork--e1618326929715.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/teamwork--800x534.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                },
+                {
+                    "source": "templates\/cases.json",
+                    "name": "Cases"
+                },
+                {
+                    "source": "templates\/case-details.json",
+                    "name": "Case Details"
+                }
+            ],
+            "filesize": 359503,
+            "dimensions": [
+                1920,
+                1281
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-WHCQD64"
+        },
+        {
+            "filename": "creative-young-people-in-business-meeting-e1617452574465.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/creative-young-people-in-business-meeting-e1617452574465-800x942.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                },
+                {
+                    "source": "templates\/about-us.json",
+                    "name": "About Us"
+                }
+            ],
+            "filesize": 195795,
+            "dimensions": [
+                1321,
+                1555
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-UHY32AV"
+        },
+        {
+            "filename": "business-people-working-together-e1618326817594.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/03\/business-people-working-together-800x531.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                }
+            ],
+            "filesize": 106107,
+            "dimensions": [
+                1024,
+                680
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-EPBL7VG"
+        },
+        {
+            "filename": "business-team-celebrating-with-raised-up-hands--e1618326889363.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/business-team-celebrating-with-raised-up-hands--800x534.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                },
+                {
+                    "source": "templates\/services.json",
+                    "name": "Services"
+                },
+                {
+                    "source": "templates\/our-team.json",
+                    "name": "Our Team"
+                }
+            ],
+            "filesize": 222488,
+            "dimensions": [
+                1920,
+                1281
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-L2H2DK2"
+        },
+        {
+            "filename": "worldmap-Q676QDA.png",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/worldmap-Q676QDA-800x448.png",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                },
+                {
+                    "source": "templates\/services.json",
+                    "name": "Services"
+                },
+                {
+                    "source": "templates\/footer.json",
+                    "name": "Footer"
+                }
+            ],
+            "filesize": 215442,
+            "dimensions": [
+                1024,
+                574
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-Q676QDA"
+        },
+        {
+            "filename": "3SUMAU.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/3SUMAU.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                },
+                {
+                    "source": "templates\/services.json",
+                    "name": "Services"
+                }
+            ],
+            "filesize": 56794,
+            "dimensions": [
+                320,
+                320
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-3SUMAU"
+        },
+        {
+            "filename": "CASCKD8.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/CASCKD8.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                },
+                {
+                    "source": "templates\/services.json",
+                    "name": "Services"
+                }
+            ],
+            "filesize": 52477,
+            "dimensions": [
+                320,
+                320
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-CASCKD8"
+        },
+        {
+            "filename": "MKLVKTE.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/MKLVKTE.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                },
+                {
+                    "source": "templates\/services.json",
+                    "name": "Services"
+                }
+            ],
+            "filesize": 59237,
+            "dimensions": [
+                320,
+                320
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-MKLVKTE"
+        },
+        {
+            "filename": "selective-focus-of-information-security-analysts-using-charts-on-computer-monitors-while-working-in-e1618327034475.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/selective-focus-of-information-security-analysts-using-charts-on-computer-monitors-while-working-in-800x534.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                },
+                {
+                    "source": "templates\/cases.json",
+                    "name": "Cases"
+                },
+                {
+                    "source": "templates\/pricing.json",
+                    "name": "Pricing"
+                }
+            ],
+            "filesize": 70825,
+            "dimensions": [
+                1024,
+                684
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-UBBMLNG"
+        },
+        {
+            "filename": "working-team-of-interior-designers-e1618326964538.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/working-team-of-interior-designers-800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                },
+                {
+                    "source": "templates\/cases.json",
+                    "name": "Cases"
+                },
+                {
+                    "source": "templates\/pricing.json",
+                    "name": "Pricing"
+                }
+            ],
+            "filesize": 337741,
+            "dimensions": [
+                1920,
+                1280
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-RKZZ6BY"
+        },
+        {
+            "filename": "web-developer-busy-working-e1618327055136.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/web-developer-busy-working-800x534.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                },
+                {
+                    "source": "templates\/cases.json",
+                    "name": "Cases"
+                },
+                {
+                    "source": "templates\/pricing.json",
+                    "name": "Pricing"
+                }
+            ],
+            "filesize": 83832,
+            "dimensions": [
+                1024,
+                684
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-P9KH4XR"
+        },
+        {
+            "filename": "team-of-engineers-working-e1618326903311.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/team-of-engineers-working-800x534.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                },
+                {
+                    "source": "templates\/about-us.json",
+                    "name": "About Us"
+                },
+                {
+                    "source": "templates\/pricing.json",
+                    "name": "Pricing"
+                },
+                {
+                    "source": "templates\/faq.json",
+                    "name": "FAQ"
+                }
+            ],
+            "filesize": 264237,
+            "dimensions": [
+                1920,
+                1282
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-APCZMQX"
+        },
+        {
+            "filename": "coworking-colleagues-having-conversation-at-workplace-1-e1618327232321.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/03\/coworking-colleagues-having-conversation-at-workplace-1-800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                },
+                {
+                    "source": "templates\/about-us.json",
+                    "name": "About Us"
+                }
+            ],
+            "filesize": 252661,
+            "dimensions": [
+                1920,
+                1280
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-48UEDYT"
+        },
+        {
+            "filename": "kink.png",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/kink.png",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                }
+            ],
+            "filesize": 7549,
+            "dimensions": [
+                388,
+                102
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "no",
+            "image_urls": "https:\/\/elements.envato.com\/logo-VVLG4M3"
+        },
+        {
+            "filename": "Garret.png",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/Garret.png",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                }
+            ],
+            "filesize": 3060,
+            "dimensions": [
+                212,
+                57
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "no",
+            "image_urls": "https:\/\/elements.envato.com\/logo-VVLG4M3"
+        },
+        {
+            "filename": "square-pixel.png",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/square-pixel.png",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                }
+            ],
+            "filesize": 8915,
+            "dimensions": [
+                388,
+                102
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "no",
+            "image_urls": "https:\/\/elements.envato.com\/logo-VVLG4M3"
+        },
+        {
+            "filename": "Domoo.png",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/Domoo.png",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                }
+            ],
+            "filesize": 8352,
+            "dimensions": [
+                388,
+                102
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "no",
+            "image_urls": "https:\/\/elements.envato.com\/logo-VVLG4M3"
+        },
+        {
+            "filename": "Parka.png",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/Parka.png",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                }
+            ],
+            "filesize": 2226,
+            "dimensions": [
+                174,
+                51
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "no",
+            "image_urls": "https:\/\/elements.envato.com\/logo-VVLG4M3"
+        },
+        {
+            "filename": "cheerful-emotional-team-reading-winning-results-on-monitor-e1618326874785.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/cheerful-emotional-team-reading-winning-results-on-monitor-800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/about-us.json",
+                    "name": "About Us"
+                }
+            ],
+            "filesize": 340027,
+            "dimensions": [
+                1920,
+                1280
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-SEU4KR7"
+        },
+        {
+            "filename": "team-MFZSWQ6.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/team-MFZSWQ6-800x999.jpg",
+            "templates": [
+                {
+                    "source": "templates\/about-us.json",
+                    "name": "About Us"
+                },
+                {
+                    "source": "templates\/our-team.json",
+                    "name": "Our Team"
+                }
+            ],
+            "filesize": 205454,
+            "dimensions": [
+                820,
+                1024
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-MFZSWQ6"
+        },
+        {
+            "filename": "team-ZH2KMPL.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/team-ZH2KMPL-800x999.jpg",
+            "templates": [
+                {
+                    "source": "templates\/about-us.json",
+                    "name": "About Us"
+                },
+                {
+                    "source": "templates\/our-team.json",
+                    "name": "Our Team"
+                }
+            ],
+            "filesize": 217371,
+            "dimensions": [
+                820,
+                1024
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-ZH2KMPL"
+        },
+        {
+            "filename": "team-3TGW9UD.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/team-3TGW9UD-800x999.jpg",
+            "templates": [
+                {
+                    "source": "templates\/about-us.json",
+                    "name": "About Us"
+                },
+                {
+                    "source": "templates\/our-team.json",
+                    "name": "Our Team"
+                }
+            ],
+            "filesize": 178019,
+            "dimensions": [
+                820,
+                1024
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-3TGW9UD"
+        },
+        {
+            "filename": "teamwork-e1618326953356.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/teamwork-800x534.jpg",
+            "templates": [
+                {
+                    "source": "templates\/services.json",
+                    "name": "Services"
+                },
+                {
+                    "source": "templates\/faq.json",
+                    "name": "FAQ"
+                },
+                {
+                    "source": "templates\/single-blog.json",
+                    "name": "Single Blog"
+                }
+            ],
+            "filesize": 263954,
+            "dimensions": [
+                1920,
+                1282
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-3HMA2U9"
+        },
+        {
+            "filename": "planning-concept-businessman-working-on-laptop-with-company-analytics-and-taking-notes-e1618326785521.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/03\/planning-concept-businessman-working-on-laptop-with-company-analytics-and-taking-notes-800x521.jpg",
+            "templates": [
+                {
+                    "source": "templates\/services.json",
+                    "name": "Services"
+                },
+                {
+                    "source": "templates\/our-team.json",
+                    "name": "Our Team"
+                }
+            ],
+            "filesize": 337094,
+            "dimensions": [
+                1920,
+                1251
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-9T8UHDF"
+        },
+        {
+            "filename": "happy-colleagues-sitting-in-office-coworking--e1617897505461.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/03\/happy-colleagues-sitting-in-office-coworking--e1617897505461-800x698.jpg",
+            "templates": [
+                {
+                    "source": "templates\/services.json",
+                    "name": "Services"
+                },
+                {
+                    "source": "templates\/cases.json",
+                    "name": "Cases"
+                },
+                {
+                    "source": "templates\/faq.json",
+                    "name": "FAQ"
+                }
+            ],
+            "filesize": 220898,
+            "dimensions": [
+                1515,
+                1321
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-PHYA6TG"
+        },
+        {
+            "filename": "digital-marketing-strategy-e1618327071924.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/digital-marketing-strategy-800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/cases.json",
+                    "name": "Cases"
+                },
+                {
+                    "source": "templates\/case-details.json",
+                    "name": "Case Details"
+                }
+            ],
+            "filesize": 80033,
+            "dimensions": [
+                1024,
+                682
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-N7XCHV3"
+        },
+        {
+            "filename": "cropped-view-of-african-american-businessman-using-laptop-and-smartphone-in-car-with-cyber-security-e1618327082767.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/cropped-view-of-african-american-businessman-using-laptop-and-smartphone-in-car-with-cyber-security-800x534.jpg",
+            "templates": [
+                {
+                    "source": "templates\/cases.json",
+                    "name": "Cases"
+                }
+            ],
+            "filesize": 79162,
+            "dimensions": [
+                1024,
+                684
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-W7ZNTM5"
+        },
+        {
+            "filename": "business-contract-e1618327094156.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/business-contract-800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/cases.json",
+                    "name": "Cases"
+                }
+            ],
+            "filesize": 72615,
+            "dimensions": [
+                1024,
+                682
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-Z4JWT7A"
+        },
+        {
+            "filename": "handsome-businessman-working-e1618327110241.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/handsome-businessman-working-800x450.jpg",
+            "templates": [
+                {
+                    "source": "templates\/cases.json",
+                    "name": "Cases"
+                },
+                {
+                    "source": "templates\/case-details.json",
+                    "name": "Case Details"
+                },
+                {
+                    "source": "templates\/blog.json",
+                    "name": "Blog"
+                },
+                {
+                    "source": "templates\/single-blog.json",
+                    "name": "Single Blog"
+                },
+                {
+                    "source": "templates\/404-page.json",
+                    "name": "404 Page"
+                }
+            ],
+            "filesize": 240729,
+            "dimensions": [
+                1920,
+                1079
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-AT79GG3"
+        },
+        {
+            "filename": "young-start-up-team-discussing-business-charts-in-office-e1618327139673.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/young-start-up-team-discussing-business-charts-in-office-800x534.jpg",
+            "templates": [
+                {
+                    "source": "templates\/case-details.json",
+                    "name": "Case Details"
+                },
+                {
+                    "source": "templates\/single-blog.json",
+                    "name": "Single Blog"
+                }
+            ],
+            "filesize": 345484,
+            "dimensions": [
+                1920,
+                1282
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-7E625EE"
+        },
+        {
+            "filename": "business-team-discussing-reports-e1618327146647.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/business-team-discussing-reports-800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/case-details.json",
+                    "name": "Case Details"
+                },
+                {
+                    "source": "templates\/pricing.json",
+                    "name": "Pricing"
+                }
+            ],
+            "filesize": 330419,
+            "dimensions": [
+                1920,
+                1280
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-ZU65AZL"
+        },
+        {
+            "filename": "team-LDBHXS6.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/team-LDBHXS6-800x999.jpg",
+            "templates": [
+                {
+                    "source": "templates\/our-team.json",
+                    "name": "Our Team"
+                }
+            ],
+            "filesize": 262528,
+            "dimensions": [
+                820,
+                1024
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-LDBHXS6"
+        },
+        {
+            "filename": "team-A4WTHD5.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/team-A4WTHD5-800x999.jpg",
+            "templates": [
+                {
+                    "source": "templates\/our-team.json",
+                    "name": "Our Team"
+                }
+            ],
+            "filesize": 233734,
+            "dimensions": [
+                820,
+                1024
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-A4WTHD5"
+        },
+        {
+            "filename": "team-AUVC9Z3.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/team-AUVC9Z3-800x999.jpg",
+            "templates": [
+                {
+                    "source": "templates\/our-team.json",
+                    "name": "Our Team"
+                }
+            ],
+            "filesize": 230395,
+            "dimensions": [
+                820,
+                1024
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-AUVC9Z3"
+        },
+        {
+            "filename": "architect-team-discussing-on-blueprints-e1618327128780.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/architect-team-discussing-on-blueprints-800x531.jpg",
+            "templates": [
+                {
+                    "source": "templates\/blog.json",
+                    "name": "Blog"
+                },
+                {
+                    "source": "templates\/single-blog.json",
+                    "name": "Single Blog"
+                }
+            ],
+            "filesize": 279836,
+            "dimensions": [
+                1920,
+                1275
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-PRLM2BR"
+        },
+        {
+            "filename": "software-engineers-working-on-project-and-programming-in-company-e1622172632470.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/03\/software-engineers-working-on-project-and-programming-in-company-800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/single-blog.json",
+                    "name": "Single Blog"
+                }
+            ],
+            "filesize": 121717,
+            "dimensions": [
+                1024,
+                682
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-C74TCJ9"
+        },
+        {
+            "filename": "top-view-of-asian-business-man-hand-working-with-teamwork-colleague-in-video-conference-e1618327043481.jpg",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/top-view-of-asian-business-man-hand-working-with-teamwork-colleague-in-video-conference-800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/contact.json",
+                    "name": "Contact"
+                }
+            ],
+            "filesize": 307591,
+            "dimensions": [
+                1920,
+                1280
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-NQVLB5D"
+        },
+        {
+            "filename": "logo-J98SKN.png",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/logo-J98SKN.png",
+            "templates": [
+                {
+                    "source": "templates\/header.json",
+                    "name": "Header"
+                },
+                {
+                    "source": "templates\/footer.json",
+                    "name": "Footer"
+                }
+            ],
+            "filesize": 3919,
+            "dimensions": [
+                431,
+                88
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "no",
+            "image_urls": "https:\/\/elements.envato.com\/image-J98SKN"
+        },
+        {
+            "filename": "logo-black.png",
+            "thumbnail_url": "https:\/\/kit.baliniz.com\/mindtech\/wp-content\/uploads\/sites\/8\/2021\/04\/logo-black.png",
+            "templates": [
+                {
+                    "source": "templates\/header.json",
+                    "name": "Header"
+                }
+            ],
+            "filesize": 4346,
+            "dimensions": [
+                431,
+                88
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "no",
+            "image_urls": "https:\/\/elements.envato.com\/image-J98SKN"
+        }
+    ]
+}

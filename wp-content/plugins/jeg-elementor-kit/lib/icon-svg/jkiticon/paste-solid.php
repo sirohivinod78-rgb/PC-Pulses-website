@@ -1,0 +1,11 @@
+<?php
+/**
+ * Jeg Kit SVG icon: paste-solid.
+ *
+ * @package Jeg_Elementor_Kit
+ */
+
+return array(
+	'svg'   => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" aria-hidden="true"><g transform="translate(0 960) scale(1 -1)"><path fill="currentColor" d="M480 864c-40.25 0-68.875-28.5-83-64h-237v-736h256v-64h448v512h-64v288h-237c-14.125 35.5-42.75 64-83 64zM480 800c17.75 0 32-14.25 32-32v-32h96v-64h-256v64h96v32c0 17.75 14.25 32 32 32zM224 736h64v-128h384v128h64v-224h-320v-384h-192zM480 448h320v-384h-320z"/></g></svg>',
+	'svg_6' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" aria-hidden="true"><g transform="translate(0 960) scale(1 -1)"><path fill="currentColor" d="M480 864c-40.25 0-68.875-28.5-83-64h-237v-736h256v-64h448v512h-64v288h-237c-14.125 35.5-42.75 64-83 64zM480 800c17.75 0 32-14.25 32-32v-32h96v-64h-256v64h96v32c0 17.75 14.25 32 32 32zM224 736h64v-128h384v128h64v-224h-320v-384h-192zM480 448h320v-384h-320z"/></g></svg>',
+);

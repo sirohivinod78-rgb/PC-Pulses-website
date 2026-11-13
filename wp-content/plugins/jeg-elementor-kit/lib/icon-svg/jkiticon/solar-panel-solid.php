@@ -1,0 +1,11 @@
+<?php
+/**
+ * Jeg Kit SVG icon: solar-panel-solid.
+ *
+ * @package Jeg_Elementor_Kit
+ */
+
+return array(
+	'svg'   => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" aria-hidden="true"><g transform="translate(0 960) scale(1 -1)"><path fill="currentColor" d="M480 832v-83l-58 57-44-44 57-58h-83v-64h83l-57-58 44-44 58 57v-83h64v83l58-57 44 44-57 58h83v64h-83l57 58-44 44-58-57v83zM512 736c35.25 0 64-28.75 64-64s-28.75-64-64-64c-35.25 0-64 28.75-64 64s28.75 64 64 64zM199 448l-71-284v-100h768v100l-71 284zM249 384h526l57-228v-28h-640v28zM288 352l-13-58h67l10 58zM416 352l-6-58h67l3 58zM544 352l3-58h67l-6 58zM672 352l10-58h67l-13 58zM262 230l-12-70h73l10 70zM406 230l-6-70h74l3 70zM547 230l3-70h74l-6 70zM691 230l10-70h73l-12 70z"/></g></svg>',
+	'svg_6' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" aria-hidden="true"><g transform="translate(0 960) scale(1 -1)"><path fill="currentColor" d="M480 832v-83l-58 57-44-44 57-58h-83v-64h83l-57-58 44-44 58 57v-83h64v83l58-57 44 44-57 58h83v64h-83l57 58-44 44-58-57v83zM512 736c35.25 0 64-28.75 64-64s-28.75-64-64-64c-35.25 0-64 28.75-64 64s28.75 64 64 64zM199 448l-71-284v-100h768v100l-71 284zM249 384h526l57-228v-28h-640v28zM288 352l-13-58h67l10 58zM416 352l-6-58h67l3 58zM544 352l3-58h67l-6 58zM672 352l10-58h67l-13 58zM262 230l-12-70h73l10 70zM406 230l-6-70h74l3 70zM547 230l3-70h74l-6 70zM691 230l10-70h73l-12 70z"/></g></svg>',
+);

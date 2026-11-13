@@ -1,0 +1,11 @@
+<?php
+/**
+ * Jeg Kit SVG icon: file-alt-solid.
+ *
+ * @package Jeg_Elementor_Kit
+ */
+
+return array(
+	'svg'   => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" aria-hidden="true"><g transform="translate(0 960) scale(1 -1)"><path fill="currentColor" d="M192 864v-832h640v621l-9 10-192 192-10 9zM256 800h320v-192h192v-512h-512zM640 754l82-82h-82zM352 544v-64h320v64zM352 416v-64h320v64zM352 288v-64h320v64z"/></g></svg>',
+	'svg_6' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" aria-hidden="true"><g transform="translate(0 960) scale(1 -1)"><path fill="currentColor" d="M192 864v-832h640v621l-9 10-192 192-10 9zM256 800h320v-192h192v-512h-512zM640 754l82-82h-82zM352 544v-64h320v64zM352 416v-64h320v64zM352 288v-64h320v64z"/></g></svg>',
+);

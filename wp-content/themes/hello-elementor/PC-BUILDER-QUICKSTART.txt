@@ -1,0 +1,328 @@
+SUPERSEDED: This guide describes the previous WordPress-based builder.
+The current app is served from app/public/pc-builder-india/ at /pc-builder-india/.
+Build Your PC buttons are already wired to that route. See PC-BUILDER-README.md.
+
+╔════════════════════════════════════════════════════════════════════════╗
+║                  PC BUILDER - QUICK START GUIDE                         ║
+║                     Interactive PC Configuration Tool                   ║
+╚════════════════════════════════════════════════════════════════════════╝
+
+✓ STATUS: All files created and integrated successfully!
+
+════════════════════════════════════════════════════════════════════════
+WHAT WAS CREATED
+════════════════════════════════════════════════════════════════════════
+
+Your PC Builder Feature consists of:
+
+1. ✓ pc-builder-data.php          - Component Database (CPU, GPU, RAM, etc.)
+2. ✓ pc-builder.js                - Interactive JavaScript Engine
+3. ✓ pc-builder.css               - Responsive Styling
+4. ✓ template-pc-builder.php      - WordPress Page Template
+5. ✓ functions.php                - Theme Integration (UPDATED)
+6. ✓ PC-BUILDER-README.md         - Complete Documentation
+7. ✓ PC-BUILDER-IMPLEMENTATION.txt - Technical Specification
+
+Location: wp-content/themes/hello-elementor/
+
+════════════════════════════════════════════════════════════════════════
+3-MINUTE SETUP
+════════════════════════════════════════════════════════════════════════
+
+STEP 1: Create the WordPress Page
+   → Go to WordPress Admin Dashboard
+   → Click "Pages" → "Add New"
+   → Title: "Build Your PC"
+   → Scroll down to "Template"
+   → Select "PC Builder" from dropdown
+   → Click "Publish"
+   → Note the page URL
+
+STEP 2: Update the Button Link
+   → Edit any page with the "Build Your PC" button
+   → Click on the button to edit
+   → Change link to the PC Builder page URL from Step 1
+   → Save/Publish
+
+STEP 3: Test It!
+   → Click the "Build Your PC" button
+   → Select a component (CPU, GPU, etc.)
+   → Watch the compatibility checking work
+   → Try exporting your build
+
+════════════════════════════════════════════════════════════════════════
+KEY FEATURES
+════════════════════════════════════════════════════════════════════════
+
+✓ Component Selection (8 Categories, 16 Components)
+  - Clean card-based interface
+  - Component specifications visible
+  - Pricing displayed for each item
+  - Easy swapping of components
+
+✓ Real-Time Compatibility Checking
+  - CPU Socket Matching (Intel LGA1700 vs AMD AM5)
+  - RAM Type Validation (DDR5)
+  - PSU Wattage Verification
+  - Cooler Socket Support
+  - Instant error/warning notifications
+
+✓ Dynamic Build Summary
+  - Real-time component tracking
+  - Sticky sidebar (desktop)
+  - Running total cost
+  - Progress indicator (X/8 components)
+  - Export build as JSON
+  - Reset build with confirmation
+
+✓ Fully Responsive Design
+  - Desktop (optimal experience)
+  - Tablet (adjusted layout)
+  - Mobile (single column, optimized)
+
+════════════════════════════════════════════════════════════════════════
+WHAT HAPPENS WHEN USER CLICKS "BUILD YOUR PC"
+════════════════════════════════════════════════════════════════════════
+
+1. User clicks button → Goes to PC Builder page
+2. Sees component grid with categories (CPU, GPU, Motherboard, etc.)
+3. Selects first component (e.g., CPU)
+   → Card highlights
+   → Build summary updates
+   → Compatibility checks run
+4. Selects second component (e.g., Motherboard)
+   → Validates socket compatibility
+   → Shows warning if mismatch
+   → Updates total price
+5. Continues selecting components
+   → Real-time updates
+   → Automatic compatibility checks
+   → Progress bar fills as components selected
+6. Can remove components by clicking "Remove"
+7. Exports build as JSON file (📥 Export Build button)
+8. Resets everything (🔄 Reset Build button)
+
+════════════════════════════════════════════════════════════════════════
+COMPONENTS INCLUDED (16 TOTAL)
+════════════════════════════════════════════════════════════════════════
+
+CPU (4 options)
+├─ Intel Core i5-13600K ($319.99)
+├─ Intel Core i7-13700K ($409.99)
+├─ AMD Ryzen 5 7600X ($229.99)
+└─ AMD Ryzen 7 7700X ($299.99)
+
+GPU (4 options)
+├─ NVIDIA RTX 4070 ($599.99)
+├─ NVIDIA RTX 4080 ($1,199.99)
+├─ AMD Radeon RX 7700 XT ($399.99)
+└─ AMD Radeon RX 7900 XTX ($799.99)
+
+Motherboard (4 options)
+├─ ASUS ROG STRIX Z790-E ($389.99)
+├─ ASUS ProArt Z790-CREATOR ($449.99)
+├─ MSI MPG B650E EDGE ($299.99)
+└─ ASUS ROG STRIX X870-E ($449.99)
+
+RAM (4 options)
+├─ Kingston Fury Beast 32GB ($119.99)
+├─ Corsair Dominator Platinum 32GB ($149.99)
+├─ G.Skill Trident Z5 64GB ($249.99)
+└─ Corsair Vengeance 32GB ($129.99)
+
+Storage (4 options)
+├─ Samsung 990 Pro 2TB ($179.99)
+├─ WD Black SN850X 1TB ($89.99)
+├─ Seagate Barracuda 4TB ($79.99)
+└─ Crucial P5 Plus 2TB ($159.99)
+
+PSU (4 options)
+├─ Corsair RM850x 850W ($139.99)
+├─ EVGA SuperNOVA G6 1000W ($179.99)
+├─ SeaSonic Focus GX 750W ($124.99)
+└─ ASUS ROG Thor 1200P ($259.99)
+
+Case (4 options)
+├─ NZXT H510 Flow ($99.99)
+├─ Corsair 5000T RGB ($299.99)
+├─ LIAN LI Lancool 215 ($49.99)
+└─ Fractal Design Torrent RGB ($249.99)
+
+Cooler (4 options)
+├─ Noctua NH-D15 ($99.99)
+├─ Corsair iCUE H150i Elite ($189.99)
+├─ Be Quiet! Dark Rock Pro 4 ($89.99)
+└─ LIAN LI GALAHAD 360 RGB ($149.99)
+
+════════════════════════════════════════════════════════════════════════
+COMPATIBILITY RULES IMPLEMENTED
+════════════════════════════════════════════════════════════════════════
+
+✓ CPU Socket → Motherboard Socket
+  ERROR if mismatch (e.g., LGA1700 CPU on AM5 motherboard)
+
+✓ RAM Type → Motherboard RAM Type
+  ERROR if mismatch (e.g., DDR5 RAM on DDR4 motherboard)
+
+✓ Total Power Consumption → PSU Wattage
+  WARNING if PSU < (CPU TDP + GPU Power + 150W) × 1.2
+  (20% headroom recommended for stability)
+
+✓ CPU Socket → Cooler Socket Support
+  ERROR if cooler doesn't support CPU socket
+
+════════════════════════════════════════════════════════════════════════
+CUSTOMIZATION EXAMPLES
+════════════════════════════════════════════════════════════════════════
+
+ADD A NEW GPU COMPONENT:
+─────────────────────────
+Open: pc-builder-data.php
+Find: 'gpu' section
+Add before closing bracket:
+    [
+        'id' => 'gpu_5',
+        'name' => 'NVIDIA RTX 4070 Super',
+        'price' => 649.99,
+        'vram' => 14,
+        'power_req' => 210,
+        'image' => 'https://your-image.jpg',
+        'specs' => ['14GB GDDR6X', '210W', 'PCIe 4.0']
+    ]
+
+UPDATE COMPONENT PRICING:
+─────────────────────────
+Open: pc-builder-data.php
+Find: Component by name
+Update: 'price' => 299.99 (new price)
+
+ADD COMPATIBILITY RULE:
+───────────────────────
+Open: pc-builder.js
+Find: checkCompatibility() function
+Add: New if statement checking your condition
+Show warning or error based on requirement
+
+════════════════════════════════════════════════════════════════════════
+TROUBLESHOOTING
+════════════════════════════════════════════════════════════════════════
+
+Problem: Page shows "Template not found"
+Solution: 
+  - Ensure template-pc-builder.php is in hello-elementor folder
+  - Refresh WordPress page template cache
+  - Try selecting template again
+
+Problem: Components not displaying
+Solution:
+  - Check browser console for JavaScript errors (F12)
+  - Verify pc-builder.js is loading (Network tab)
+  - Check that pc-builder-data.php has valid PHP syntax
+
+Problem: Prices not showing correctly
+Solution:
+  - Check pc-builder-data.php for price values
+  - Verify currency is USD ($ symbol)
+  - Clear browser cache (Ctrl+Shift+Delete)
+
+Problem: Compatibility warnings not appearing
+Solution:
+  - Ensure both components have required fields
+  - Check browser console for errors
+  - Verify component data structure in pc-builder-data.php
+
+Problem: Export not working
+Solution:
+  - Check browser console for errors
+  - Ensure JavaScript functions are defined
+  - Test in different browser
+  - Check file permissions
+
+════════════════════════════════════════════════════════════════════════
+FILES AT A GLANCE
+════════════════════════════════════════════════════════════════════════
+
+pc-builder-data.php (300 lines)
+└─ All components with specs and pricing
+   └─ 8 categories × 2-4 components each
+   └─ Easy to update and extend
+
+pc-builder.js (350 lines)
+└─ Core application logic
+   └─ Component selection
+   └─ Compatibility checking
+   └─ Build management
+   └─ Export/Import functions
+
+pc-builder.css (600 lines)
+└─ All styling for builder
+   └─ Responsive design
+   └─ Animations & transitions
+   └─ Mobile optimization
+
+template-pc-builder.php (150 lines)
+└─ WordPress page template
+   └─ Header & description
+   └─ Component grid container
+   └─ Build summary sidebar
+   └─ Help section
+
+functions.php (updated +80 lines)
+└─ Integration with theme
+   └─ Script/style enqueuing
+   └─ Data passing to JS
+   └─ Template registration
+
+════════════════════════════════════════════════════════════════════════
+NEXT STEPS
+════════════════════════════════════════════════════════════════════════
+
+IMMEDIATE (Now):
+☐ Create PC Builder page in WordPress
+☐ Link "Build Your PC" button to new page
+☐ Test on desktop, tablet, mobile
+☐ Test component selection
+☐ Test compatibility warnings
+
+SOON (This week):
+☐ Monitor user engagement
+☐ Collect user feedback
+☐ Test with real traffic
+
+LATER (Planned enhancements):
+☐ Real API integration (pricing APIs)
+☐ Pre-made build templates
+☐ Performance benchmarking
+☐ Component reviews/ratings
+☐ Social sharing
+☐ Build history tracking
+
+════════════════════════════════════════════════════════════════════════
+NEED HELP?
+════════════════════════════════════════════════════════════════════════
+
+For detailed information:
+→ Read: PC-BUILDER-README.md
+   (Full documentation with API reference)
+
+For technical specs:
+→ Read: PC-BUILDER-IMPLEMENTATION.txt
+   (Architecture, features, and specifications)
+
+For code details:
+→ See: Comment blocks in source files
+   (Each function is documented)
+
+════════════════════════════════════════════════════════════════════════
+
+✓ YOUR PC BUILDER IS READY TO GO!
+
+Start with Step 1 (Create WordPress Page) above.
+It should take about 3 minutes to get everything working.
+
+Questions? Check the documentation files.
+Everything you need is included.
+
+Good luck! 🚀
+
+════════════════════════════════════════════════════════════════════════

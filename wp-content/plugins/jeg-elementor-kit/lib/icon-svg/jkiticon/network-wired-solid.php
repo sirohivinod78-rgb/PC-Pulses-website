@@ -1,0 +1,11 @@
+<?php
+/**
+ * Jeg Kit SVG icon: network-wired-solid.
+ *
+ * @package Jeg_Elementor_Kit
+ */
+
+return array(
+	'svg'   => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" aria-hidden="true"><g transform="translate(0 960) scale(1 -1)"><path fill="currentColor" d="M416 832v-64h-128c-52.625 0-96-43.375-96-96v-128h-64v-192h192v192h-64v128c0 18.125 13.875 32 32 32h128v-64h192v192zM480 768h64v-64h-64zM640 768v-64h96c18.125 0 32-13.875 32-32v-128h-64v-192h192v192h-64v128c0 52.625-43.375 96-96 96zM192 480h64v-64h-64zM768 480h64v-64h-64zM192 320v-96c0-52.625 43.375-96 96-96h128v-64h192v192h-192v-64h-128c-18.125 0-32 13.875-32 32v96zM768 320v-96c0-18.125-13.875-32-32-32h-96v-64h96c52.625 0 96 43.375 96 96v96zM480 192h64v-64h-64z"/></g></svg>',
+	'svg_6' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" aria-hidden="true"><g transform="translate(0 960) scale(1 -1)"><path fill="currentColor" d="M416 832v-64h-128c-52.625 0-96-43.375-96-96v-128h-64v-192h192v192h-64v128c0 18.125 13.875 32 32 32h128v-64h192v192zM480 768h64v-64h-64zM640 768v-64h96c18.125 0 32-13.875 32-32v-128h-64v-192h192v192h-64v128c0 52.625-43.375 96-96 96zM192 480h64v-64h-64zM768 480h64v-64h-64zM192 320v-96c0-52.625 43.375-96 96-96h128v-64h192v192h-192v-64h-128c-18.125 0-32 13.875-32 32v96zM768 320v-96c0-18.125-13.875-32-32-32h-96v-64h96c52.625 0 96 43.375 96 96v96zM480 192h64v-64h-64z"/></g></svg>',
+);

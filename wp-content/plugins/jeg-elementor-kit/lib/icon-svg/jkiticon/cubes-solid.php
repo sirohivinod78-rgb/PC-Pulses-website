@@ -1,0 +1,11 @@
+<?php
+/**
+ * Jeg Kit SVG icon: cubes-solid.
+ *
+ * @package Jeg_Elementor_Kit
+ */
+
+return array(
+	'svg'   => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" aria-hidden="true"><g transform="translate(0 960) scale(1 -1)"><path fill="currentColor" d="M512 832l-12-5-212-85v-215l-173-75-19-9v-258l16-10 192-107 15-8 15 7 178 89 178-89 15-7 15 8 192 107 16 10v258l-19 9-173 75v215l-212 85zM512 762l105-41-105-41-105 41zM352 674l128-49v-156l-128 57zM672 674v-148l-128-57v156zM320 470l116-51-116-57-116 58zM704 470l116-50-116-58-116 57 36 16zM160 371l128-64v-157l-128 72zM864 371v-149l-128-72v157zM480 369v-157l-128-64v159zM544 369l128-62v-159l-128 64z"/></g></svg>',
+	'svg_6' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" aria-hidden="true"><g transform="translate(0 960) scale(1 -1)"><path fill="currentColor" d="M512 832l-12-5-212-85v-215l-173-75-19-9v-258l16-10 192-107 15-8 15 7 178 89 178-89 15-7 15 8 192 107 16 10v258l-19 9-173 75v215l-212 85zM512 762l105-41-105-41-105 41zM352 674l128-49v-156l-128 57zM672 674v-148l-128-57v156zM320 470l116-51-116-57-116 58zM704 470l116-50-116-58-116 57 36 16zM160 371l128-64v-157l-128 72zM864 371v-149l-128-72v157zM480 369v-157l-128-64v159zM544 369l128-62v-159l-128 64z"/></g></svg>',
+);
